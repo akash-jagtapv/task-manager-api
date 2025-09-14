@@ -1,6 +1,7 @@
 package com.taskmanager.service;
 
 import com.taskmanager.entity.Task;
+import com.taskmanager.exception.TaskNotFoundException;
 import com.taskmanager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,9 @@ public class TaskService {
     }
 
     public Task getTaskById(Long id) {
-        return taskRepository.findById(id).orElse(null);
+
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     public Task saveTask(Task task) {
